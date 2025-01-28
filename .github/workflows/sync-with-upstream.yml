@@ -1,0 +1,40 @@
+name: Sync with upstream
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Runs daily at midnight
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout fork repository
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Add upstream repository
+        run: git remote add upstream https://github.com/kwartler/Harvard_DataMining_Business_Student.git
+
+      - name: Fetch upstream
+        run: git fetch upstream
+
+      - name: Create branch for sync
+        run: |
+          git checkout -b sync-upstream-$(date +'%Y%m%d')
+          git merge upstream/main || true  # Merge changes without failing the job
+
+      - name: Push sync branch to fork
+        run: git push origin HEAD
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: Sync with upstream at $(date +'%Y-%m-%d')
+          branch: sync-upstream-$(date +'%Y%m%d')
+          title: Sync with upstream at $(date +'%Y-%m-%d')
+          body: |
+            This pull request updates your fork with the latest changes from the upstream repository.
