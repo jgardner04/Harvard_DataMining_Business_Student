@@ -12,9 +12,9 @@ library(ggplot2)
 library(ggthemes)
 
 # Step 3 Bring in some data: Go get our banana!
-#scenesDF   <- read.csv('~/Desktop/Harvard_DataMining_Business_Student/Lessons/A_IntroToR/data/forceAwakens_definedScenes.csv')
+scenesDF <- read.csv('~/git/Harvard_DataMining_Business_Student/Lessons/A_IntroToR/data/forceAwakens_definedScenes.csv')
 
-scenesDF <- read.csv('https://raw.githubusercontent.com/kwartler/Harvard_DataMining_Business_Student/master/Lessons/A_IntroToR/data/forceAwakens_definedScenes.csv')
+#scenesDF <- read.csv('https://raw.githubusercontent.com/kwartler/Harvard_DataMining_Business_Student/master/Lessons/A_IntroToR/data/forceAwakens_definedScenes.csv')
 
 # Step 4 Apply functions: Perform the task we want on our data: Cut & Peel our banana!
 

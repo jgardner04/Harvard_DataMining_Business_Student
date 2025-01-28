@@ -8,7 +8,7 @@
 #'
 
 ## Set the working directory
-setwd("~/Desktop/Harvard_DataMining_Business_Student/personalFiles")
+setwd("~/git/Harvard_DataMining_Business_Student/personalFiles")
 
 # Libs
 library(maps)
