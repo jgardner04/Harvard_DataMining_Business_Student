@@ -10,4 +10,5 @@
 
 # Add personal file folder
 personalFiles/
-Harvard_DataMining_Business_Student.Rproj
+*.Rproj
+
