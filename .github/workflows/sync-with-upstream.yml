@@ -28,7 +28,7 @@ jobs:
       - name: Create branch for sync
         run: |
           git checkout -b ${{ env.branch_name }}
-          git merge upstream/main || true
+          git merge upstream/master || true
         env:
           branch_name: ${{ env.branch_name }}
 
@@ -42,6 +42,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: Sync with upstream at $(date +'%Y-%m-%d')
+          base: master
           branch: ${{ env.branch_name }}
           title: Sync with upstream at $(date +'%Y-%m-%d')
           body: |
