@@ -23,14 +23,14 @@ jobs:
 
       - name: Get date for branch name
         id: date
-        run: echo "branch_name=sync-upstream-$(date +'%Y%m%d')" >> $GITHUB_ENV
+        run: echo "::set-output name=branch_name::sync-upstream-$(date +'%Y%m%d')"
 
       - name: Create branch for sync
         run: |
           git checkout -b ${{ env.branch_name }}
           git merge upstream/main || true
         env:
-          branch_name: ${{ env.branch_name }}
+          branch_name: ${{ steps.date.outputs.branch_name }}
 
       - name: Push sync branch to fork
         run: git push origin $branch_name
@@ -42,7 +42,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: Sync with upstream at $(date +'%Y-%m-%d')
-          branch: ${{ env.branch_name }}
+          branch: ${{ steps.date.outputs.branch_name }}
           title: Sync with upstream at $(date +'%Y-%m-%d')
           body: |
             This pull request updates your fork with the latest changes from the upstream repository.
