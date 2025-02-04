@@ -44,7 +44,20 @@ jobs:
         env:
           branch_name: ${{ env.branch_name }}
 
+      - name: Check for differences between master and sync branch
+        id: diff-check
+        run: |
+          # Fetch the latest master target from origin
+          git fetch origin master
+          if git diff --quiet origin/master HEAD; then
+            echo "no_changes=true" >> $GITHUB_ENV
+            echo "No differences detected; skipping pull request."
+          else
+            echo "no_changes=false" >> $GITHUB_ENV
+          fi
+
       - name: Create Pull Request
+        if: env.no_changes == 'false'
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -56,4 +69,4 @@ jobs:
           body: |
             Automated PR to sync fork with kwartler/Harvard_DataMining_Business_Student:master
             
-            Changes from upstream repository will be merged into master branch.
+            Changes from the upstream repository will be merged into master branch.
