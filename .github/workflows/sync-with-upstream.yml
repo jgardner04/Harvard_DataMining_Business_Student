@@ -16,24 +16,31 @@ jobs:
           fetch-depth: 0
 
       - name: Add upstream repository
-        run: git remote add upstream https://github.com/kwartler/Harvard_DataMining_Business_Student.git
+        run: |
+          git remote add upstream https://github.com/kwartler/Harvard_DataMining_Business_Student.git
+          git fetch upstream
 
-      - name: Fetch upstream
-        run: git fetch upstream
+      - name: Setup git config
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
 
       - name: Get date for branch name
         id: date
         run: echo "branch_name=sync-upstream-$(date +'%Y%m%d')" >> $GITHUB_ENV
 
-      - name: Create branch for sync
+      - name: Create and switch to sync branch
         run: |
+          git checkout master
           git checkout -b ${{ env.branch_name }}
-          git merge upstream/master || true
+          git merge upstream/master --no-edit || true
         env:
           branch_name: ${{ env.branch_name }}
 
       - name: Push sync branch to fork
-        run: git push -u origin ${{ env.branch_name }}
+        run: |
+          git push -u origin ${{ env.branch_name }}
+          echo "Changes pushed to branch ${{ env.branch_name }}"
         env:
           branch_name: ${{ env.branch_name }}
 
@@ -41,9 +48,12 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: Sync with upstream at $(date +'%Y-%m-%d')
-          base: master
+          commit-message: "Sync fork with upstream/master"
+          base: "master"
           branch: ${{ env.branch_name }}
-          title: Sync with upstream at $(date +'%Y-%m-%d')
+          delete-branch: true
+          title: "Sync with upstream master at $(date +'%Y-%m-%d')"
           body: |
-            This pull request updates your fork with the latest changes from the upstream repository.
+            Automated PR to sync fork with kwartler/Harvard_DataMining_Business_Student:master
+            
+            Changes from upstream repository will be merged into master branch.
