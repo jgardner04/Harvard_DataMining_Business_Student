@@ -56,8 +56,8 @@ range(diamonds$price)
 
 # 10. Find the 347th diamond in the data set using row indexing.  Copy paste the single row below.
 diamonds[347,]
-      carat   cut color clarity depth table price    x    y    z
-411.1  0.34 Ideal     I     VS1  61.8    55   555 4.48 4.52 2.78
+#      carat   cut color clarity depth table price    x    y    z
+#411.1  0.34 Ideal     I     VS1  61.8    55   555 4.48 4.52 2.78
 
 # 11. Create a barplot of the diamonds' cut column.  Using jpeg() as the function create a file "barplot.jpg" then create the bar plot so it is saved to disk.
 jpeg("/Users/jogardn/git/Harvard_DataMining_Business_Student/personalFiles/barplot.jpg")
