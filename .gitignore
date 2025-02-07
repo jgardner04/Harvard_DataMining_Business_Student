@@ -10,4 +10,5 @@
 
 # Add personal file folder
 *.Rproj
+/personalFiles
 
