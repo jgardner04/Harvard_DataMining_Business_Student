@@ -1,7 +1,7 @@
 #' Title: Dealing with Emoji
 #' Author: Ted Kwartler
 #' email: edward.kwartler@fas.harvard.edu
-#' Date: May 21, 2024
+#' Date: Apr 28, 2025
 #'
 
 # Libs
@@ -31,7 +31,7 @@ intToBits(charToRaw(emojis$emoji[2]))
 rawToChar(charToRaw(emojis$emoji[2]))
 
 # Read in some data
-unicorns <- read.csv('https://raw.githubusercontent.com/kwartler/Harvard_DataMining_Business_Student/refs/heads/master/Lessons/K_Text_Mining_2/data/unicorns.csv')
+unicorns <- read.csv('https://raw.githubusercontent.com/kwartler/Harvard_DataMining_Business_Student/refs/heads/master/Lessons/L_Text_Mining_2/data/unicorns.csv')
 
 # Small sample
 unicorns$text[c(720, 804)]
@@ -68,11 +68,11 @@ mgsub::mgsub(unicorns$text[c(720, 804)], emojis$emoji, emojis$name)
 
 # Since emojis are often without spaces:
 st <- Sys.time()
-subTxt <- mgsub::mgsub(unicorns$text[1:100],
+subTxt <- mgsub::mgsub(unicorns$text[c(720:804)],
                        emojis$emoji,
                        paste0(' ', emojis$name,' '))
 Sys.time() - st #10x longer for 1000 tweets, imagine more! ~2.5min
-subTxt[c(720, 804)]
+trimws(subTxt[c(1, 85)])
 
 # Converts to ASCII so not always helpful, but works in some common emojis
 textclean::replace_emoji(unicorns$text[804])
